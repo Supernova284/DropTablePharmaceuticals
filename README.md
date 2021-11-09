@@ -1,3 +1,3 @@
 # Drop Table Pharmaceuticals
 
-![Drop Table Logo](./public/assets/DropTableLogoLarge.png)
+![Drop Table Logo](./public/assets/DropTableLogoSmall.png)
