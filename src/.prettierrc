@@ -6,6 +6,6 @@
     "useTabs": false,
     "trailingComma": "none",
     "bracketSpacing": true,
-    "jsxBrancketSameLine": false,
+    "jsxBracketSameLine": false,
     "semi": true
 }

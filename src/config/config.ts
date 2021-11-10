@@ -3,15 +3,17 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const MYSQL_HOST = process.env.MYSQL_HOST || 'localhost';
+const MYSQL_PORT = parseInt(process.env.MYSQL_PORT?.toString() ?? '3306');
 const MYSQL_DATABASE = process.env.MYSQL_DATABASE || 'docoffice';
-const MYSQL_USER = process.env.MYSQL_HOST || 'root';
-const MYSQL_PASS = process.env.MYSQL_HOST || 'password';
+const MYSQL_USER = process.env.MYSQL_USER || 'root';
+const MYSQL_PASS = process.env.MYSQL_PASS || 'yeet';
 
 const MYSQL = {
     host: MYSQL_HOST,
+    port: MYSQL_PORT,
     database: MYSQL_DATABASE,
     user: MYSQL_USER,
-    pass: MYSQL_PASS
+    password: MYSQL_PASS
 };
 
 const SERVER_HOSTNAME = process.env.SERVER_HOSTNAME || 'localhost';
