@@ -4,7 +4,7 @@
     "description": "api for doctor's office project",
     "main": "server.ts",
     "scripts": {
-        "build": "prettier --write ./ && tsc"
+        "build": "tsc"
     },
     "author": "",
     "license": "ISC",
