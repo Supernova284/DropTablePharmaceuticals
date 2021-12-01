@@ -1,0 +1,23 @@
+{
+    "name": "doc_office_api",
+    "version": "1.0.0",
+    "description": "api for doctor's office project",
+    "main": "server.ts",
+    "scripts": {
+        "build": "tsc"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mysql": "^2.18.1"
+    },
+    "devDependencies": {
+        "@types/bcrypt": "^5.0.0",
+        "@types/dotenv": "^8.2.0",
+        "@types/express": "^4.17.8",
+        "@types/mysql": "^2.15.19"
+    }
+}
