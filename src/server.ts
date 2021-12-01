@@ -2,29 +2,24 @@ import http from 'http';
 import express from 'express';
 import logging from './config/logging';
 import config from './config/config';
-import sampleRoutes from './routes/sample';
+import get from './routes/get';
+import auth from './routes/auth';
 
 const NAMESPACE = 'Server';
 const router = express();
 
 // logging requests
 router.use((req, res, next) => {
-    logging.info(
-        NAMESPACE,
-        `METHOD - [${req.method}], URL - [${req.url}, IP - [${req.socket.remoteAddress}]`
-    );
+    logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}]`);
 
     res.on('finish', () => {
-        logging.info(
-            NAMESPACE,
-            `METHOD - [${req.method}], URL - [${req.url}, IP - [${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`
-        );
+        logging.info(NAMESPACE, `METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`);
     });
 
     next();
 });
 
-// parse the request
+// Parse the request
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 
@@ -42,7 +37,8 @@ router.use((req, res, next) => {
 });
 
 // Routes
-router.use('/sample', sampleRoutes);
+router.use('/get', get);
+router.use('/auth', auth);
 
 // Error Handling
 router.use((req, res, next) => {
@@ -55,9 +51,4 @@ router.use((req, res, next) => {
 
 // Server
 const httpServer = http.createServer(router);
-httpServer.listen(config.server.port, () =>
-    logging.info(
-        NAMESPACE,
-        `Server is running on ${config.server.hostname}:${config.server.port}`
-    )
-);
+httpServer.listen(config.server.port, () => logging.info(NAMESPACE, `Server is running on ${config.server.hostname}:${config.server.port}`));
