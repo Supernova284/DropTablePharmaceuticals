@@ -7,7 +7,7 @@ const NAMESPACE = 'Patient Controller';
 // req : {}
 // res : { result: DataRowPackets }
 const getAll = (req: Request, res: Response) => {
-    logging.info(NAMESPACE, `Get all endpoint called.`);
+    logging.info(NAMESPACE, `getAll endpoint called.`);
     mysql.db.query('SELECT * FROM patient', (error, result) => {
         if (error) {
             logging.error(NAMESPACE, 'Could not perform query', error);

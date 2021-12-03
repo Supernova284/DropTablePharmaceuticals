@@ -8,9 +8,6 @@ const NAMESPACE = 'Doctor Controller';
 // res : { result }
 const getAll = (req: Request, res: Response) => {
     logging.info(NAMESPACE, `Doctor endpoint called.`);
-    console.log(req.body);
-    // figure out best way to parse incoming queries
-    // or just make custom routes for them?
     mysql.db.query('SELECT * FROM doctor', (error, result) => {
         if (error) {
             logging.error(NAMESPACE, 'Could not perform query', error);
@@ -45,7 +42,7 @@ const postDoctor = (req: Request, res: Response) => {
     logging.info(NAMESPACE, `postDoctor called.`);
     let { id, firstName, lastName, phone, specialty, salary } = req.body;
 
-    mysql.db.query('INSERT INTO doctor VALUES ?', [id, firstName, lastName, phone, specialty, salary],
+    mysql.db.query('INSERT INTO doctor VALUES ?', [firstName, lastName, phone, specialty, salary],
      (error, result) => {
         if (error) {
             logging.error(NAMESPACE, 'Could not perform query', error);

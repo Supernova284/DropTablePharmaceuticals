@@ -1,14 +1,25 @@
+
 # Routes
-## Doctor
-GET - /doctor/all <br />
-GET - /doctor/patient { id: int }<br />
-POST - /doctor
 
-## Patient
-GET - /patient { id: int }<br />
+## /Doctor
+GET - / `{}`<br />
+GET - /patient `{ id: int }`<br />
+POST - /doctor `[firstName, lastName, phone, specialty, salary]`
+
+## /Patient
+
+GET - / `{}`<br />
+GET - /id `{ id: int }`<br />
 POST - /patient
-{ firstName, lastName, phoneNumber, streetName, streetNumber, city, zip, insurance }
+`{ firstName, lastName, phoneNumber, streetName, streetNumber, city, zip, insurance }`
 
-## Auth
-GET - /auth/login { username, password }
-POST - /auth/signup { username, password, passwordConfirm }
+## /Appointments
+
+GET - /patient `{ id: int }`<br />
+GET - /doctor `{ id: int }`<br />
+POST - / `{ test, patientId, doctorId, time, date, room }`
+
+## /Auth
+
+GET - /login { username, password }
+POST - /signup { username, password, passwordConfirm }
