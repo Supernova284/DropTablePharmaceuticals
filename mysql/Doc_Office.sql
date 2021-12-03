@@ -1,3 +1,6 @@
+DROP DATABASE IF EXISTS Doc_Office;
+CREATE DATABASE Doc_Office;
+DROP TABLE IF EXISTS DOCTOR;
 CREATE TABLE DOCTOR(
 	Doctor_ID int,
     First_name varchar(45),
@@ -5,8 +8,12 @@ CREATE TABLE DOCTOR(
     Phone_number char(9),
     Specialty varchar(45),
     Salary int,
+    username varchar(45),
+    FOREIGN KEY (username) REFERENCES ACCOUNT_(Username),
     Primary Key (Doctor_ID)
     );
+    
+DROP TABLE IF EXISTS PATIENT;
 CREATE TABLE PATIENT(
 	SSN char(9),
     First_name varchar(45),
@@ -17,8 +24,12 @@ CREATE TABLE PATIENT(
     City varchar(45),
     Zip_code varchar(10),
     Insurance_ID int,
+    username varchar(45),
+    FOREIGN KEY (username) REFERENCES ACCOUNT_(Username),
     Primary Key (SSN)
     );
+    
+DROP TABLE IF EXISTS PRESCRIPTION;
 CREATE TABLE PRESCRIPTION(
 	Prescription_ID int,
 	Drug_name varchar(45),
@@ -35,6 +46,8 @@ CREATE TABLE PRESCRIPTION(
 );
 CREATE INDEX Name
 ON DOCTOR(Doctor_ID,First_name);
+
+DROP TABLE IF EXISTS APPOINTMENT;
 CREATE TABLE APPOINTMENT(
 	Appointment_number int,
     Test_given int,
@@ -45,13 +58,15 @@ CREATE TABLE APPOINTMENT(
     Date char(10),
     Room_number int,
     PRIMARY KEY (Appointment_number),
-    FOREIGN KEY (Test_given) REFERENCES MEDICAL_TEST(Test_ID),
     FOREIGN KEY (Patient_SSN) REFERENCES PATIENT(SSN),
+    FOREIGN KEY (Test_given) REFERENCES MEDICAL_TEST(Test_ID),
     FOREIGN KEY (Doctor_name) REFERENCES DOCTOR(First_name),
     FOREIGN KEY (Doctor_ID) REFERENCES DOCTOR(Doctor_ID)
     );
 CREATE INDEX Date_given
 ON APPOINTMENT(Date);
+
+DROP TABLE IF EXISTS MEDICAL_TEST;
 CREATE TABLE MEDICAL_TEST(
 	Test_ID int,
     Doctor_name varchar(45),
@@ -68,6 +83,8 @@ CREATE TABLE MEDICAL_TEST(
     );
 CREATE INDEX Specialty
 ON DOCTOR(Specialty);
+
+DROP TABLE IF EXISTS AUDIT;
 CREATE TABLE AUDIT(
 	Doctor_ID int,
     Doctor_name varchar(45),
@@ -77,6 +94,14 @@ CREATE TABLE AUDIT(
     FOREIGN KEY (Doctor_ID) REFERENCES DOCTOR(Doctor_ID),
     FOREIGN KEY (Doctor_name) REFERENCES DOCTOR(First_name),
     FOREIGN KEY (Specialty) REFERENCES DOCTOR(Specialty)
+    );
+    
+DROP TABLE IF EXISTS ACCOUNT_;
+CREATE TABLE ACCOUNT_(
+	Username varchar(45),
+    role varchar(45),
+    hash varchar(45),
+    salt varchar(45)
     );
     
     
