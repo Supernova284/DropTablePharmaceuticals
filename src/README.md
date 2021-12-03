@@ -21,7 +21,7 @@ POST - / `{ test, patientId, doctorId, time, date, room }`
 
 ## /Auth
 
-GET - /login { username, password }
-POST - /signup { username, password, passwordConfirm }
+GET - /login `{ username, password }`<br />
+POST - /signup `{ username, password, passwordConfirm }`
 
 Written by Charlie
