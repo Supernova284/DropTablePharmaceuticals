@@ -2,8 +2,10 @@ import http from 'http';
 import express from 'express';
 import logging from './config/logging';
 import config from './config/config';
-import get from './routes/get';
 import auth from './routes/auth';
+import doctor from './routes/doctor';
+import patient from './routes/patient';
+import appointment from './routes/appointment';
 
 const NAMESPACE = 'Server';
 const router = express();
@@ -37,8 +39,10 @@ router.use((req, res, next) => {
 });
 
 // Routes
-router.use('/get', get);
 router.use('/auth', auth);
+router.use('/doctor', doctor);
+router.use('/patient', patient);
+router.use('/appointment', appointment);
 
 // Error Handling
 router.use((req, res, next) => {
