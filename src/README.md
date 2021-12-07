@@ -22,7 +22,7 @@ POST - / `{ test, patientId, doctorId, time, date, room }`
 
 GET - / `{}`<br />
 GET - /id `{ id: int }`<br />
-POST - / `{ docId: int, Test_type: string(45), Result: string(100), patientId: char(9), dateGiven: string(10) }`<br />
+POST - / `{ docId: int, Test_type: string, Result: string, patientId: char, dateGiven: string }`<br />
 PUT - /
 
 ## /Prescription
