@@ -4,7 +4,8 @@
     "description": "api for doctor's office project",
     "main": "server.ts",
     "scripts": {
-        "build": "tsc"
+        "build": "tsc --build",
+        "start": "node build/server.js"
     },
     "author": "",
     "license": "ISC",
