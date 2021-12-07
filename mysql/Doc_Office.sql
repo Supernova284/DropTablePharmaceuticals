@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS Doc_Office;
 CREATE DATABASE Doc_Office;
 DROP TABLE IF EXISTS DOCTOR;
 CREATE TABLE DOCTOR(
-	Doctor_ID int NOT NULL UNIQUE AUTO_INCREMENT,
+	  Doctor_ID int NOT NULL UNIQUE AUTO_INCREMENT,
     First_name varchar(45) ,
     Last_name varchar(45),
     Phone_number char(9),
@@ -14,7 +14,7 @@ CREATE TABLE DOCTOR(
     );
 DROP TABLE IF EXISTS PATIENT;
 CREATE TABLE PATIENT(
-	SSN char(9) UNIQUE,
+	  SSN char(9) UNIQUE,
     First_name varchar(45),
     Last_name varchar(45),
     Phone_number char(9),
@@ -45,9 +45,9 @@ CREATE TABLE PRESCRIPTION(
 
 DROP TABLE IF EXISTS APPOINTMENT;
 CREATE TABLE APPOINTMENT(
-	Appointment_number int ,
+	  Appointment_number int,
     Test_given int,
-	Patient_SSN char(9),
+	  Patient_SSN char(9),
     Doctor_ID int AUTO_INCREMENT,
     Date datetime,
     Room_number int,
@@ -59,7 +59,7 @@ CREATE TABLE APPOINTMENT(
 
 DROP TABLE IF EXISTS MEDICAL_TEST;
 CREATE TABLE MEDICAL_TEST(
-	Test_ID int AUTO_INCREMENT,
+	  Test_ID int AUTO_INCREMENT,
     Doctor_name varchar(45),
     Doctor_ID int,
     Test_type varchar(45),
@@ -73,7 +73,7 @@ CREATE TABLE MEDICAL_TEST(
 
 DROP TABLE IF EXISTS AUDIT;
 CREATE TABLE AUDIT(
-	Doctor_ID int AUTO_INCREMENT,
+	  Doctor_ID int AUTO_INCREMENT,
     Action varchar(100),
     Date_modified datetime,
     FOREIGN KEY (Doctor_ID) REFERENCES DOCTOR(Doctor_ID)
@@ -81,7 +81,7 @@ CREATE TABLE AUDIT(
     
 DROP TABLE IF EXISTS ACCOUNT;
 CREATE TABLE ACCOUNT(
-	username varchar(45) NOT NULL UNIQUE,
+	  username varchar(45) NOT NULL UNIQUE,
     role varchar(45),
     hash varchar(45),
     salt varchar(45)
