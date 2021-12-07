@@ -6,6 +6,8 @@ import auth from './routes/auth';
 import doctor from './routes/doctor';
 import patient from './routes/patient';
 import appointment from './routes/appointment';
+import prescription from './routes/prescription';
+import test from './routes/test';
 
 const NAMESPACE = 'Server';
 const router = express();
@@ -43,6 +45,8 @@ router.use('/auth', auth);
 router.use('/doctor', doctor);
 router.use('/patient', patient);
 router.use('/appointment', appointment);
+router.use('/prescription', prescription);
+router.use('/test', test);
 
 // Error Handling
 router.use((req, res, next) => {

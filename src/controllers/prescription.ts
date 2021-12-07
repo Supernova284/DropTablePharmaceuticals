@@ -2,14 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import logging from '../config/logging';
 import mysql from './db';
 
-const NAMESPACE = 'Appointment Controller';
+const NAMESPACE = 'Prescription Controller';
 
-// req : { id: int }
+// req : {}
 // res : { result: DataRowPackets }
-const getByPatient = (req: Request, res: Response) => {
-    logging.info(NAMESPACE, `GetByPatient endpoint called.`);
-    mysql.db.query('SELECT * FROM appointment WHERE patientId = ?', [req.body['id']],
-    (error, result) => {
+const getAll = (req: Request, res: Response) => {
+    logging.info(NAMESPACE, `getAll endpoint called.`);
+    mysql.db.query('SELECT * FROM prescription', (error, result) => {
         if (error) {
             logging.error(NAMESPACE, 'Could not perform query', error);
             res.status(400).json(error);
@@ -21,13 +20,9 @@ const getByPatient = (req: Request, res: Response) => {
     });
 };
 
-// req : { id: int }
-// res : { result }
-const getByDoctor = (req: Request, res: Response) => {
-    logging.info(NAMESPACE, `getPatientDoctor called.`);
-
-    mysql.db.query('SELECT * FROM appointment WHERE doctorId = ?', [req.body['id']],
-    (error, result) => {
+const getPrescription = (req: Request, res: Response) => {
+    logging.info(NAMESPACE, `getPrescription endpoint called.`);
+    mysql.db.query('SELECT * FROM prescription WHERE Prescription_SSN = ?', [req.body['id']], (error, result) => {
         if (error) {
             logging.error(NAMESPACE, 'Could not perform query', error);
             res.status(400).json(error);
@@ -39,11 +34,11 @@ const getByDoctor = (req: Request, res: Response) => {
     });
 };
 
-const postAppointment = (req: Request, res: Response) => {
+const postPrescription = (req: Request, res: Response) => {
     logging.info(NAMESPACE, `postDoctor called.`);
-    let { test, patientId, doctorId, time, date, room } = req.body;
+    let { name, dosage, refills, datePrescribed, recentFilling, doctorId, patientId } = req.body;
 
-    mysql.db.query('INSERT INTO appointment VALUES ?', [test, patientId, doctorId, time, date, room],
+    mysql.db.query('INSERT INTO prescription VALUES ?', [name, dosage, refills, datePrescribed, recentFilling, doctorId, patientId],
      (error, result) => {
         if (error) {
             logging.error(NAMESPACE, 'Could not perform query', error);
@@ -56,8 +51,8 @@ const postAppointment = (req: Request, res: Response) => {
     });
 };
 
-const updateAppointment = (req: Request, res: Response) => {
-    logging.info(NAMESPACE, `updateAppointment endpoint called.`);
+const updatePrescription = (req: Request, res: Response) => {
+    logging.info(NAMESPACE, `updatePrescription endpoint called.`);
     mysql.db.query('REPLACE', [req.body['id']], (error, result) => {
         if (error) {
             logging.error(NAMESPACE, 'Could not perform query', error);
@@ -70,9 +65,9 @@ const updateAppointment = (req: Request, res: Response) => {
     });
 }
 
-export default {
-    getByPatient,
-    getByDoctor,
-    postAppointment,
-    updateAppointment
-};
+export default{
+    getAll,
+    getPrescription,
+    postPrescription,
+    updatePrescription
+}

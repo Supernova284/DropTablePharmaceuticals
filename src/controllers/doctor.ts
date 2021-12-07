@@ -40,7 +40,7 @@ const getPatientDoctor = (req: Request, res: Response) => {
 
 const postDoctor = (req: Request, res: Response) => {
     logging.info(NAMESPACE, `postDoctor called.`);
-    let { id, firstName, lastName, phone, specialty, salary } = req.body;
+    let { firstName, lastName, phone, specialty, salary } = req.body;
 
     mysql.db.query('INSERT INTO doctor VALUES ?', [firstName, lastName, phone, specialty, salary],
      (error, result) => {
@@ -55,8 +55,23 @@ const postDoctor = (req: Request, res: Response) => {
     });
 };
 
+const updateDoctor = (req: Request, res: Response) => {
+    logging.info(NAMESPACE, `updateDoctor endpoint called.`);
+    mysql.db.query('REPLACE', [req.body['id']], (error, result) => {
+        if (error) {
+            logging.error(NAMESPACE, 'Could not perform query', error);
+            res.status(400).json(error);
+        } else {
+            return res.status(200).json({
+                result: result
+            });
+        }
+    });
+}
+
 export default {
     getAll,
     getPatientDoctor,
-    postDoctor
+    postDoctor,
+    updateDoctor
 };
