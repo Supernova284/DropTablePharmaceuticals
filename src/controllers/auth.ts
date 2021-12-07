@@ -10,13 +10,12 @@ const NAMESPACE = 'Auth Controller';
 // failure res : { message: string }, status 400
 const signup = (req: Request, res: Response) => {
     logging.info(NAMESPACE, 'Attempted signup');
-    const { username, password, passwordConfirm } = req.body;
+    const { username, role, password, passwordConfirm } = req.body;
 
     mysql.db.query('SELECT username FROM account WHERE username = ?', [username], async (error, result) => {
         if (error) {
             logging.error(NAMESPACE, 'Could not query username', error);
         }
-
         if (result > 0) {
             logging.info(NAMESPACE, 'Username already in use');
             return res.status(400).json({
@@ -29,9 +28,10 @@ const signup = (req: Request, res: Response) => {
             });
         }
 
-        let hashedPassword = await bcrypt.hash(password, 8);
-
-        mysql.db.query('INSERT INTO account SET ?', { username: username, password: hashedPassword }, (error, result) => {
+        let salt = bcrypt.genSaltSync();
+        let hashedPassword = await bcrypt.hash(password, salt);
+        mysql.db.query('INSERT INTO account VALUES ?', [username, role, hashedPassword, salt],
+        (error, result) => {
             if (error) {
                 logging.info(NAMESPACE, 'Error inserting user into db', error);
             } else {
@@ -58,7 +58,8 @@ const login = (req: Request, res: Response) => {
             });
         }
 
-        mysql.db.query('SELECT * FROM account WHERE username = ?', [username], async (error, result) => {
+        mysql.db.query('SELECT * FROM account WHERE username = ?', [username],
+        async (error, result) => {
             if (!result || !(await bcrypt.compare(password, result[0].password))) {
                 res.status(400).json({
                     message: 'Username or password is incorrect'
