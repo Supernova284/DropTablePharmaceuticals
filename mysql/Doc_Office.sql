@@ -10,7 +10,7 @@ CREATE TABLE ACCOUNT(
     hash varchar(100)
     );
 CREATE TABLE DOCTOR(
-	Doctor_ID int NOT NULL AUTO_INCREMENT,
+	Doctor_ID int NOT NULL UNIQUE AUTO_INCREMENT,
     First_name varchar(45),
     Last_name varchar(45),
     username varchar(45),
@@ -32,8 +32,7 @@ CREATE TABLE APPOINTMENT(
     
 DROP TABLE IF EXISTS PATIENT;
 CREATE TABLE PATIENT(
-	ssn char(9),
-	patientid int NOT NULL,
+	SSN char(9) UNIQUE,
     First_name varchar(45),
     Last_name varchar(45),
     Street_name varchar(50),
@@ -43,14 +42,14 @@ CREATE TABLE PATIENT(
     Phone_number char(10),
     Appointment_number int,
     username varchar(45),
-    PRIMARY KEY(patientid),
+    PRIMARY KEY(SSN),
     FOREIGN KEY (Appointment_number) REFERENCES APPOINTMENT(Appointment_number),
     FOREIGN KEY (username) REFERENCES ACCOUNT(username)
     );
     
 DROP TABLE IF EXISTS PRESCRIPTION;
 CREATE TABLE PRESCRIPTION(
-	Prescription_ID int,
+	Prescription_ID int AUTO_INCREMENT,
     medicineName varchar(100),
     doctorid int,
     Dosage int,
@@ -63,11 +62,12 @@ CREATE TABLE PRESCRIPTION(
 
 DROP TABLE IF EXISTS TEST;
 CREATE TABLE TEST(
-	testname varchar(100),
+	Test_ID int AUTO_INCREMENT,
+    testname varchar(100),
     result varchar(100),
     Prescription_ID int NOT NULL,
     Date_given datetime,
-    PRIMARY KEY (testname),
+    PRIMARY KEY (Test_ID),
     FOREIGN KEY(Prescription_ID) REFERENCES PRESCRIPTION(Prescription_ID)
 );
 
@@ -90,7 +90,7 @@ CREATE TABLE AUDIT(
 DROP TABLE IF EXISTS DOCTORPATIENT;
 CREATE TABLE DOCTORPATIENT (
   doctorId INT NOT NULL,
-  patientid int NOT NULL,
+  patientid char(9) NOT NULL,
   PRIMARY KEY (doctorId, patientid),
   CONSTRAINT doctorid
     FOREIGN KEY (doctorId)
@@ -99,21 +99,21 @@ CREATE TABLE DOCTORPATIENT (
     ON UPDATE NO ACTION,
   CONSTRAINT patientid
     FOREIGN KEY (patientid)
-    REFERENCES PATIENT (patientid)
+    REFERENCES PATIENT (SSN)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
 );
 DROP TABLE IF EXISTS DOCTORTEST;
 CREATE TABLE DOCTORTEST(
 	doctorId int NOT NULL,
-    testName varchar(45) NOT NULL,
-    PRIMARY KEY (doctorId, testName),
+    testid int NOT NULL,
+    PRIMARY KEY (doctorId, testid),
     CONSTRAINT doctor_id
 	  FOREIGN KEY (doctorId) REFERENCES DOCTOR(Doctor_ID)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
-	CONSTRAINT testName
-      FOREIGN KEY (testName) REFERENCES TEST(testname)
+	CONSTRAINT testid
+      FOREIGN KEY (testid) REFERENCES TEST(Test_ID)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
     );
@@ -134,11 +134,11 @@ CREATE TABLE  DOCTORSPECIALIZATION(
     );
 DROP TABLE IF EXISTS TESTAPPOINTMENT;
 CREATE TABLE  TESTAPPOINTMENT(
-	testname varchar(100) NOT NULL,
+	testid int NOT NULL,
     appointmentid int NOT NULL,
-    PRIMARY KEY (testname, appointmentid),
-    CONSTRAINT testname_
-	  FOREIGN KEY (testname) REFERENCES TEST(testname)
+    PRIMARY KEY (testid, appointmentid),
+    CONSTRAINT test_id
+	  FOREIGN KEY (testid) REFERENCES TEST(Test_ID)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
 	CONSTRAINT appointmentid_
@@ -148,28 +148,28 @@ CREATE TABLE  TESTAPPOINTMENT(
     );
 DROP TABLE IF EXISTS TESTPATIENT;
 CREATE TABLE  TESTPATIENT(
-	testname varchar(100) NOT NULL,
-	patientid int NOT NULL,
-    PRIMARY KEY (testname, patientid),
-    CONSTRAINT test_name
-	  FOREIGN KEY (testname) REFERENCES TEST(testname)
+	testid int NOT NULL,
+	patientid char(9) NOT NULL,
+    PRIMARY KEY (testid, patientid),
+    CONSTRAINT testid_
+	  FOREIGN KEY (testid) REFERENCES TEST(Test_ID)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
 	CONSTRAINT patientid_
-      FOREIGN KEY (patientid) REFERENCES PATIENT(patientid)
+      FOREIGN KEY (patientid) REFERENCES PATIENT(SSN)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
     );
 CREATE TABLE PRESCRIPTIONPATIENT(
 	Prescription_ID int NOT NULL,
-	patientid int NOT NULL,
+	patientid char(9) NOT NULL,
     PRIMARY KEY (Prescription_ID, patientid),
     CONSTRAINT Prescription_ID 
-	  FOREIGN KEY (Prescription_ID ) REFERENCES PRESCRIPTION(Prescription_ID )
+	  FOREIGN KEY (Prescription_ID ) REFERENCES PRSESCRIPTION(Prescription_ID )
       ON DELETE NO ACTION
       ON UPDATE NO ACTION,
 	CONSTRAINT patient
-      FOREIGN KEY (patientid) REFERENCES PATIENT(patientid)
+      FOREIGN KEY (patientid) REFERENCES PATIENT(SSN)
       ON DELETE NO ACTION
       ON UPDATE NO ACTION
     );
